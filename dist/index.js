@@ -38,13 +38,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(7733));
 const changelogen_1 = __nccwpck_require__(1826);
-const semver_1 = __importDefault(__nccwpck_require__(9290));
 const version_1 = __nccwpck_require__(4064);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -59,10 +55,7 @@ function run() {
             const commits = (0, changelogen_1.parseCommits)(rawCommits, config).filter(c => config.types[c.type]
                 && !(c.type === 'chore' && c.scope === 'deps' && !c.isBreaking));
             const type = (0, changelogen_1.determineSemverChange)(commits, config) || 'patch';
-            let currentVersion = '0.0.0';
-            if (from)
-                currentVersion = from;
-            const newVersion = semver_1.default.inc(currentVersion, type);
+            const newVersion = (0, version_1.incrementVersion)(from, type);
             core.setOutput('version', newVersion);
         }
         catch (error) {
@@ -90,14 +83,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getCurrentVersion = void 0;
+exports.incrementVersion = exports.getCurrentVersion = void 0;
 const changelogen_1 = __nccwpck_require__(1826);
+const semver_1 = __importDefault(__nccwpck_require__(9290));
 const getCurrentVersion = () => __awaiter(void 0, void 0, void 0, function* () {
     const from = yield (0, changelogen_1.getLastGitTag)();
     return from.replace(/^v/, '');
 });
 exports.getCurrentVersion = getCurrentVersion;
+const incrementVersion = (current, type) => {
+    var _a, _b;
+    if (!current)
+        return (_a = semver_1.default.inc('0.0.0', type)) !== null && _a !== void 0 ? _a : '0.0.0';
+    return (_b = semver_1.default.inc(current, type)) !== null && _b !== void 0 ? _b : current;
+};
+exports.incrementVersion = incrementVersion;
 
 
 /***/ }),
