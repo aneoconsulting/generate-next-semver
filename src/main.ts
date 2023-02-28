@@ -1,16 +1,40 @@
+import { execSync } from 'node:child_process'
 import * as core from '@actions/core'
-import { wait } from './wait'
+import { determineSemverChange, getGitDiff, loadChangelogConfig, parseCommits } from 'changelogen'
+import semver from 'semver'
 
 async function run(): Promise<void> {
+  let from = '0.0.0'
+  let haveInitialTag = false
+  const to = 'main'
+
+  // Get the version from the last tag
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    from = execSync('git describe --abbrev=0 --tags').toString('utf-8').trim()
+    haveInitialTag = true
+  }
+  catch (error) {
+    if (error instanceof Error)
+      core.debug(error.message)
+  }
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+  try {
+    const config = await loadChangelogConfig(process.cwd(), {
+      from: haveInitialTag ? from : '',
+      to,
+    })
 
-    core.setOutput('time', new Date().toTimeString())
+    const rawCommits = await getGitDiff(haveInitialTag ? from : '', to)
+    const commits = parseCommits(rawCommits, config).filter(
+      c =>
+        config.types[c.type]
+        && !(c.type === 'chore' && c.scope === 'deps' && !c.isBreaking),
+    )
+
+    const type = determineSemverChange(commits, config) || 'patch'
+    const newVersion = semver.inc(from, type)
+
+    core.setOutput('version', newVersion)
   }
   catch (error) {
     if (error instanceof Error)

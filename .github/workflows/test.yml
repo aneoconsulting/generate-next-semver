@@ -33,6 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./
-        with:
-          milliseconds: 1000
+      - name: Generate Next Version
+        id: version
+        uses: ./
+      - run: |
+          echo "Version, ${{ steps.version.outputs.version }}"

@@ -15,6 +15,7 @@
   ],
   "main": "lib/main.js",
   "scripts": {
+    "action": "jiti ./src/main.ts",
     "build": "tsc",
     "package": "ncc build --source-map --license licences.txt",
     "lint": "eslint --cache . --ext .ts",
@@ -22,14 +23,18 @@
     "all": "nr lint && nr build && nr package"
   },
   "dependencies": {
-    "@actions/core": "^1.10.0"
+    "@actions/core": "^1.10.0",
+    "changelogen": "^0.4.1",
+    "semver": "^7.3.8"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.3",
     "@antfu/ni": "^0.20.0",
     "@types/node": "^18.14.2",
+    "@types/semver": "^7.3.13",
     "@vercel/ncc": "^0.36.1",
     "eslint": "^8.35.0",
+    "jiti": "^1.17.1",
     "typescript": "^4.9.5"
   }
 }
