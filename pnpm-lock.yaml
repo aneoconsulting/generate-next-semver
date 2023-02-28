@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@actions/core': ^1.10.0
   '@antfu/eslint-config': ^0.35.3
+  '@antfu/ni': ^0.20.0
   '@types/node': ^18.14.2
   '@typescript-eslint/eslint-plugin': ^5.54.0
   '@vercel/ncc': ^0.36.1
@@ -14,6 +15,7 @@ dependencies:
 
 devDependencies:
   '@antfu/eslint-config': 0.35.3_ycpbpc6yetojsgtrx3mwntkhsu
+  '@antfu/ni': 0.20.0
   '@types/node': 18.14.2
   '@typescript-eslint/eslint-plugin': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
   '@vercel/ncc': 0.36.1
@@ -129,6 +131,11 @@ packages:
       - jest
       - supports-color
       - typescript
+    dev: true
+
+  /@antfu/ni/0.20.0:
+    resolution: {integrity: sha512-mBgAuq2b0daSA/14LMyjEjaInD7/Zd7KVXZge7bQPKmtQJFqy9/pWBml6DMkMreeHQEomMtIbbeqReNJ/74kjA==}
+    hasBin: true
     dev: true
 
   /@babel/code-frame/7.12.11:

@@ -5,6 +5,10 @@ on: # rebuild any PRs and main branch changes
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
@@ -20,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: nci
-        
+
       - name: Rebuild the dist/ directory
         run: |
           nr build

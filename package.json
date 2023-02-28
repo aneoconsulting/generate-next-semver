@@ -17,16 +17,17 @@
   "scripts": {
     "build": "tsc",
     "package": "ncc build --source-map --license licences.txt",
-    "lint": "eslint --cache .",
-    "format": "eslint --fix ."
+    "lint": "eslint --cache . --ext .ts",
+    "format": "eslint --fix . --ext .ts",
+    "all": "nr lint && nr build && nr package"
   },
   "dependencies": {
     "@actions/core": "^1.10.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.3",
+    "@antfu/ni": "^0.20.0",
     "@types/node": "^18.14.2",
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@vercel/ncc": "^0.36.1",
     "eslint": "^8.35.0",
     "typescript": "^4.9.5"
