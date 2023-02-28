@@ -56,3 +56,6 @@ jobs:
         with:
           name: dist
           path: dist/
+
+      - run: git diff --exit-code
+        if: ${{ failure() && steps.diff.conclusion == 'failure' }}
