@@ -42,34 +42,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const node_child_process_1 = __nccwpck_require__(7718);
 const core = __importStar(__nccwpck_require__(7733));
 const changelogen_1 = __nccwpck_require__(1826);
 const semver_1 = __importDefault(__nccwpck_require__(9290));
+const version_1 = __nccwpck_require__(4064);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        let from = '0.0.0';
-        let haveInitialTag = false;
-        const to = 'main';
-        // Get the version from the last tag
         try {
-            from = (0, node_child_process_1.execSync)('git describe --abbrev=0 --tags').toString('utf-8').trim();
-            haveInitialTag = true;
-        }
-        catch (error) {
-            if (error instanceof Error)
-                core.debug(error.message);
-        }
-        try {
+            const from = yield (0, version_1.getCurrentVersion)();
+            const to = 'main';
             const config = yield (0, changelogen_1.loadChangelogConfig)(process.cwd(), {
-                from: haveInitialTag ? from : '',
+                from,
                 to,
             });
-            const rawCommits = yield (0, changelogen_1.getGitDiff)(haveInitialTag ? from : '', to);
+            const rawCommits = yield (0, changelogen_1.getGitDiff)(from, to);
             const commits = (0, changelogen_1.parseCommits)(rawCommits, config).filter(c => config.types[c.type]
                 && !(c.type === 'chore' && c.scope === 'deps' && !c.isBreaking));
             const type = (0, changelogen_1.determineSemverChange)(commits, config) || 'patch';
-            const newVersion = semver_1.default.inc(from, type);
+            let currentVersion = '0.0.0';
+            if (from)
+                currentVersion = from;
+            const newVersion = semver_1.default.inc(currentVersion, type);
             core.setOutput('version', newVersion);
         }
         catch (error) {
@@ -79,6 +72,32 @@ function run() {
     });
 }
 run();
+
+
+/***/ }),
+
+/***/ 4064:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getCurrentVersion = void 0;
+const changelogen_1 = __nccwpck_require__(1826);
+const getCurrentVersion = () => __awaiter(void 0, void 0, void 0, function* () {
+    const from = yield (0, changelogen_1.getLastGitTag)();
+    return from.replace(/^v/, '');
+});
+exports.getCurrentVersion = getCurrentVersion;
 
 
 /***/ }),

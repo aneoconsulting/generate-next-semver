@@ -36,5 +36,4 @@ jobs:
       - name: Generate Next Version
         id: version
         uses: ./
-      - run: |
-          echo "Version, ${{ steps.version.outputs.version }}"
+      - run: echo "Next Version, ${{ steps.version.outputs.version }}"
