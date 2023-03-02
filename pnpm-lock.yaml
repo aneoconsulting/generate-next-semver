@@ -8,6 +8,7 @@ specifiers:
   '@types/semver': ^7.3.13
   '@vercel/ncc': ^0.36.1
   changelogen: ^0.4.1
+  cross-env: ^7.0.3
   eslint: ^8.35.0
   jiti: ^1.17.1
   semver: ^7.3.8
@@ -26,6 +27,7 @@ devDependencies:
   '@types/node': 18.14.2
   '@types/semver': 7.3.13
   '@vercel/ncc': 0.36.1
+  cross-env: 7.0.3
   eslint: 8.35.0
   jiti: 1.17.1
   typescript: 4.9.5
@@ -659,6 +661,14 @@ packages:
   /convert-gitmoji/0.1.3:
     resolution: {integrity: sha512-t5yxPyI8h8KPvRwrS/sRrfIpT2gJbmBAY0TFokyUBy3PM44RuFRpZwHdACz+GTSPLRLo3s4qsscOMLjHiXBwzw==}
     dev: false
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}

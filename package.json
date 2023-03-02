@@ -15,7 +15,8 @@
   ],
   "main": "lib/main.js",
   "scripts": {
-    "action": "jiti ./src/main.ts",
+    "action": "cross-env INPUT_RELEASE_BRANCH=main jiti ./src/main.ts",
+    "action:edge": "cross-env INPUT_EDGE=true INPUT_RELEASE_BRANCH=main jiti ./src/main.ts",
     "build": "tsc",
     "package": "ncc build --source-map --license licences.txt",
     "lint": "eslint --cache . --ext .ts",
@@ -34,6 +35,7 @@
     "@types/node": "^18.14.2",
     "@types/semver": "^7.3.13",
     "@vercel/ncc": "^0.36.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.35.0",
     "jiti": "^1.17.1",
     "typescript": "^4.9.5"

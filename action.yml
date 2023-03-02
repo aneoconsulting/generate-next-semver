@@ -2,11 +2,11 @@ name: generate-next-semver
 description: Generate a new version using latest commit messages and following the semantic versioning
 author: aneoconsulting
 inputs:
-  release-branch:
+  release_branch:
     description: The branch to release from
     required: false
     default: main
-  release-edge:
+  edge:
     description: If true, an edge tag will be generated (e.g. 1.0.0-edge.1)
     required: false
     default: "true"

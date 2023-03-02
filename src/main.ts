@@ -4,8 +4,8 @@ import { generateNewVersion, getCurrentVersion } from './version'
 
 async function run(): Promise<void> {
   try {
-    const releaseBranch = core.getInput('release-branch')
-    const edge = Boolean(core.getInput('release-edge'))
+    const releaseBranch = core.getInput('release_branch')
+    const edge = Boolean(core.getInput('edge'))
 
     const from = await getCurrentVersion()
     const to = await getCurrentGitRef()
