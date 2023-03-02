@@ -49,6 +49,8 @@ function run() {
             const edge = core.getInput('is_edge') === 'true';
             const from = yield (0, version_1.getCurrentVersion)();
             const to = yield (0, changelogen_1.getCurrentGitRef)();
+            core.info(`Current version: ${from}`);
+            core.info(`Current branch: ${to}`);
             const config = yield (0, changelogen_1.loadChangelogConfig)(process.cwd(), {
                 from,
                 to,

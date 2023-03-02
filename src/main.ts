@@ -10,6 +10,9 @@ async function run(): Promise<void> {
     const from = await getCurrentVersion()
     const to = await getCurrentGitRef()
 
+    core.info(`Current version: ${from}`)
+    core.info(`Current branch: ${to}`)
+
     const config = await loadChangelogConfig(process.cwd(), {
       from,
       to,
