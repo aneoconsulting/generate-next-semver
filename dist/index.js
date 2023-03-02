@@ -46,7 +46,9 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const releaseBranch = core.getInput('release_branch');
-            const edge = Boolean(core.getInput('edge'));
+            const edge = core.getInput('edge') === 'true';
+            core.debug(core.getInput('release_branch'));
+            core.debug(core.getInput('edge'));
             const from = yield (0, version_1.getCurrentVersion)();
             const to = yield (0, changelogen_1.getCurrentGitRef)();
             const config = yield (0, changelogen_1.loadChangelogConfig)(process.cwd(), {
