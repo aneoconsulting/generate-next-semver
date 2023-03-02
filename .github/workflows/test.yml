@@ -49,7 +49,7 @@ jobs:
       - name: Generate Next Version
         id: version
         uses: ./
-      - run: echo "Next Version, ${{ steps.version.outputs.version }}
+      - run: echo "Next Version, ${{ steps.version.outputs.version }}"
       - run: pnpm jiti ./scripts/check-version.ts ${{ steps.version.outputs.version }}
 
       - name: Generate Next Version (edge)
