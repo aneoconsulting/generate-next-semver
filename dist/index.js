@@ -45,8 +45,8 @@ const version_1 = __nccwpck_require__(4064);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const releaseBranch = core.getInput('release-branch');
-            const edge = Boolean(core.getInput('release-edge'));
+            const releaseBranch = core.getInput('release_branch');
+            const edge = Boolean(core.getInput('edge'));
             const from = yield (0, version_1.getCurrentVersion)();
             const to = yield (0, changelogen_1.getCurrentGitRef)();
             const config = yield (0, changelogen_1.loadChangelogConfig)(process.cwd(), {
@@ -57,10 +57,13 @@ function run() {
             const commits = (0, changelogen_1.parseCommits)(rawCommits, config).filter(c => config.types[c.type]
                 && !(c.type === 'chore' && c.scope === 'deps' && !c.isBreaking));
             const type = (0, changelogen_1.determineSemverChange)(commits, config) || 'patch';
-            const newVersion = yield (0, version_1.generateNewVersion)(from, type, {
+            const nextVersion = (0, version_1.incrementVersion)(from, type);
+            const newVersion = yield (0, version_1.generateNewVersion)(nextVersion, {
                 to,
                 releaseBranch,
                 edge,
+                numberOfCommits: rawCommits.length,
+                shortHash: rawCommits[rawCommits.length - 1].shortHash,
             });
             core.setOutput('version', newVersion);
         }
@@ -88,7 +91,8 @@ exports.useSlugify = void 0;
 const slugify_1 = __importDefault(__nccwpck_require__(7689));
 const useSlugify = (text) => {
     return (0, slugify_1.default)(text, {
-        replacement: '-',
+        replacement: '',
+        remove: /[-]/g,
         lower: true,
         strict: true,
         locale: 'en',
@@ -134,20 +138,17 @@ const incrementVersion = (current, type) => {
     return (_b = semver_1.default.inc(current, type)) !== null && _b !== void 0 ? _b : current;
 };
 exports.incrementVersion = incrementVersion;
-const generateNewVersion = (from, type, options) => __awaiter(void 0, void 0, void 0, function* () {
-    const incrementedVersion = (0, exports.incrementVersion)(from, type);
+const generateNewVersion = (version, options) => __awaiter(void 0, void 0, void 0, function* () {
     if (options.edge) {
         const serializedBranch = (0, slugify_1.useSlugify)(options.to);
-        const rawCommits = yield (0, changelogen_1.getGitDiff)(from, options.to);
-        const lastCommitHash = rawCommits[rawCommits.length - 1].shortHash;
         // On the release branch
         if (options.releaseBranch === options.to)
-            return `${incrementedVersion}-edge.${rawCommits.length}.${lastCommitHash}`;
+            return `${version}-edge.${options.numberOfCommits}.${options.shortHash}`;
         // On a feature branch
         if (options.releaseBranch !== options.to)
-            return `${incrementedVersion}-${serializedBranch}.${rawCommits.length}.${lastCommitHash}`;
+            return `${version}-${serializedBranch}.${options.numberOfCommits}.${options.shortHash}`;
     }
-    return incrementedVersion;
+    return version;
 });
 exports.generateNewVersion = generateNewVersion;
 
