@@ -28,7 +28,6 @@ async function run(): Promise<void> {
       to,
       releaseBranch,
       edge,
-      lastCommitSha: rawCommits[rawCommits.length - 1].sha,
     })
 
     core.setOutput('version', newVersion)
