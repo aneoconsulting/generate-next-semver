@@ -7,7 +7,7 @@ async function run(): Promise<void> {
     const releaseBranch = core.getInput('release_branch')
     const edge = core.getInput('edge') === 'true'
 
-    console.log(edge, core.getInput('edge'))
+    core.info(core.getInput('edge'))
 
     const from = await getCurrentVersion()
     const to = await getCurrentGitRef()
