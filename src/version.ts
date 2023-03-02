@@ -25,11 +25,11 @@ export const generateNewVersion = async (from: string, type: semver.ReleaseType,
     const lastCommitHash = rawCommits[rawCommits.length - 1].shortHash
     // On the release branch
     if (options.releaseBranch === options.to)
-      return `${incrementedVersion}-edge.${rawCommits.length}.${lastCommitHash}` // need to use the last sha commit
+      return `${incrementedVersion}-edge.${rawCommits.length}.${lastCommitHash}`
 
     // On a feature branch
     if (options.releaseBranch !== options.to)
-      return `${incrementedVersion}-${serializedBranch}.${rawCommits.length}.${lastCommitHash}` // need to use the last sha commit
+      return `${incrementedVersion}-${serializedBranch}.${rawCommits.length}.${lastCommitHash}`
   }
 
   return incrementedVersion
