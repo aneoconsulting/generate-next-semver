@@ -11,12 +11,14 @@ specifiers:
   eslint: ^8.35.0
   jiti: ^1.17.1
   semver: ^7.3.8
+  slugify: ^1.6.5
   typescript: ^4.9.5
 
 dependencies:
   '@actions/core': 1.10.0
   changelogen: 0.4.1
   semver: 7.3.8
+  slugify: 1.6.5
 
 devDependencies:
   '@antfu/eslint-config': 0.35.3_ycpbpc6yetojsgtrx3mwntkhsu
@@ -2328,6 +2330,11 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
     dev: true
+
+  /slugify/1.6.5:
+    resolution: {integrity: sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==}
+    engines: {node: '>=8.0.0'}
+    dev: false
 
   /spdx-correct/3.1.1:
     resolution: {integrity: sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==}

@@ -36,4 +36,11 @@ jobs:
       - name: Generate Next Version
         id: version
         uses: ./
-      - run: echo "Next Version, ${{ steps.version.outputs.version }}"
+      - run: echo "Next Version, ${{ steps.version.outputs.version }}
+
+      - name: Generate Next Version (edge)
+        id: version-edge
+        uses: ./
+        with:
+          release-edge: "true"
+      - run: echo "Next Version (edge), ${{ steps.version-edge.outputs.version }}"

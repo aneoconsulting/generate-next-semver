@@ -1,11 +1,14 @@
 import * as core from '@actions/core'
-import { determineSemverChange, getGitDiff, loadChangelogConfig, parseCommits } from 'changelogen'
-import { getCurrentVersion, incrementVersion } from './version'
+import { determineSemverChange, getCurrentGitRef, getGitDiff, loadChangelogConfig, parseCommits } from 'changelogen'
+import { generateNewVersion, getCurrentVersion } from './version'
 
 async function run(): Promise<void> {
   try {
+    const releaseBranch = core.getInput('release-branch')
+    const edge = Boolean(core.getInput('release-edge'))
+
     const from = await getCurrentVersion()
-    const to = 'main'
+    const to = await getCurrentGitRef()
 
     const config = await loadChangelogConfig(process.cwd(), {
       from,
@@ -21,7 +24,12 @@ async function run(): Promise<void> {
 
     const type = determineSemverChange(commits, config) || 'patch'
 
-    const newVersion = incrementVersion(from, type)
+    const newVersion = await generateNewVersion(from, type, {
+      to,
+      releaseBranch,
+      edge,
+      lastCommitSha: rawCommits[rawCommits.length - 1].sha,
+    })
 
     core.setOutput('version', newVersion)
   }
