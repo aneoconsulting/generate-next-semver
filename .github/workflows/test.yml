@@ -60,7 +60,7 @@ jobs:
         with:
           is_edge: true
       - run: echo "Next Version (edge), ${{ steps.version-edge.outputs.version }}"
-      - run: pnpm jiti ./scripts/check-version-edge.ts ${{ steps.version.outputs.version }}
+      - run: pnpm jiti ./scripts/check-version-edge.ts ${{ steps.version.outputs.version-edge }}
 
   unit-test:
     runs-on: ubuntu-latest
