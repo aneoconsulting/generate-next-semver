@@ -34,17 +34,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - run: npm i -g pnpm @antfu/ni
+
+      - name: Set Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: nci
+
       - name: Generate Next Version
         id: version
         uses: ./
       - run: echo "Next Version, ${{ steps.version.outputs.version }}
+      - run: pnpm jiti ./scripts/check-version.ts ${{ steps.version.outputs.version }}
 
       - name: Generate Next Version (edge)
         id: version-edge
         uses: ./
         with:
-          release-edge: "true"
+          edge: "true"
       - run: echo "Next Version (edge), ${{ steps.version-edge.outputs.version }}"
+      - run: pnpm jiti ./scripts/check-version-edge.ts ${{ steps.version.outputs.version }}
 
   unit-test:
     runs-on: ubuntu-latest

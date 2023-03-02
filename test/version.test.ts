@@ -76,7 +76,7 @@ describe('version', () => {
         shortHash: 'azerty',
       })
 
-      expect(newVersion).toBe('1.0.0-featuremy-feature.2.azerty')
+      expect(newVersion).toBe('1.0.0-featuremyfeature.2.azerty')
     })
   })
 })
