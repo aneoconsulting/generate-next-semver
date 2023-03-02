@@ -4,8 +4,7 @@ author: aneoconsulting
 inputs:
   release_branch:
     description: The branch to release from
-    required: false
-    default: main
+    required: true
   is_edge:
     description: If true, an edge tag will be generated (e.g. 1.0.0-edge.1)
     required: true
