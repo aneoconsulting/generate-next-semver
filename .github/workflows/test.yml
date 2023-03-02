@@ -50,7 +50,7 @@ jobs:
         id: version
         uses: ./
         with:
-          edge: "false"
+          edge: false
       - run: echo "Next Version, ${{ steps.version.outputs.version }}"
       - run: pnpm jiti ./scripts/check-version.ts ${{ steps.version.outputs.version }}
 
@@ -58,7 +58,7 @@ jobs:
         id: version-edge
         uses: ./
         with:
-          edge: "true"
+          edge: true
       - run: echo "Next Version (edge), ${{ steps.version-edge.outputs.version }}"
       - run: pnpm jiti ./scripts/check-version-edge.ts ${{ steps.version.outputs.version }}
 
