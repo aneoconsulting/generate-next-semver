@@ -16,7 +16,7 @@
   "main": "lib/main.js",
   "scripts": {
     "action": "cross-env INPUT_RELEASE_BRANCH=main jiti ./src/main.ts",
-    "action:edge": "cross-env INPUT_EDGE=true INPUT_RELEASE_BRANCH=main jiti ./src/main.ts",
+    "action:edge": "cross-env INPUT_IS_EDGE=true INPUT_RELEASE_BRANCH=main jiti ./src/main.ts",
     "build": "tsc",
     "package": "ncc build --source-map --license licences.txt",
     "lint": "eslint --cache . --ext .ts",

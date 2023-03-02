@@ -5,10 +5,7 @@ import { generateNewVersion, getCurrentVersion, incrementVersion } from './versi
 async function run(): Promise<void> {
   try {
     const releaseBranch = core.getInput('release_branch')
-    const edge = core.getInput('edge') === 'true'
-
-    core.debug(core.getInput('release_branch'))
-    core.debug(core.getInput('edge'))
+    const edge = core.getInput('is_edge') === 'true'
 
     const from = await getCurrentVersion()
     const to = await getCurrentGitRef()
