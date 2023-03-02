@@ -1,4 +1,4 @@
-import { getGitDiff, getLastGitTag } from 'changelogen'
+import { getLastGitTag } from 'changelogen'
 import semver from 'semver'
 import type { GenerateNewVersionOptions } from './types'
 import { useSlugify } from './slugify'
@@ -16,22 +16,18 @@ export const incrementVersion = (current: string, type: semver.ReleaseType): str
   return semver.inc(current, type) ?? current
 }
 
-export const generateNewVersion = async (from: string, type: semver.ReleaseType, options: GenerateNewVersionOptions): Promise<string> => {
-  const incrementedVersion = incrementVersion(from, type)
-
+export const generateNewVersion = async (version: string, options: GenerateNewVersionOptions): Promise<string> => {
   if (options.edge) {
     const serializedBranch = useSlugify(options.to)
-    const rawCommits = await getGitDiff(from, options.to)
-    const lastCommitHash = rawCommits[rawCommits.length - 1].shortHash
 
     // On the release branch
     if (options.releaseBranch === options.to)
-      return `${incrementedVersion}-edge.${rawCommits.length}.${lastCommitHash}`
+      return `${version}-edge.${options.numberOfCommits}.${options.shortHash}`
 
     // On a feature branch
     if (options.releaseBranch !== options.to)
-      return `${incrementedVersion}-${serializedBranch}.${rawCommits.length}.${lastCommitHash}`
+      return `${version}-${serializedBranch}.${options.numberOfCommits}.${options.shortHash}`
   }
 
-  return incrementedVersion
+  return version
 }

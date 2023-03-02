@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import { determineSemverChange, getCurrentGitRef, getGitDiff, loadChangelogConfig, parseCommits } from 'changelogen'
-import { generateNewVersion, getCurrentVersion } from './version'
+import { generateNewVersion, getCurrentVersion, incrementVersion } from './version'
 
 async function run(): Promise<void> {
   try {
@@ -23,11 +23,14 @@ async function run(): Promise<void> {
     )
 
     const type = determineSemverChange(commits, config) || 'patch'
+    const nextVersion = incrementVersion(from, type)
 
-    const newVersion = await generateNewVersion(from, type, {
+    const newVersion = await generateNewVersion(nextVersion, {
       to,
       releaseBranch,
       edge,
+      numberOfCommits: rawCommits.length,
+      shortHash: rawCommits[rawCommits.length - 1].shortHash,
     })
 
     core.setOutput('version', newVersion)
