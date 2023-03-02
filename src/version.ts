@@ -23,6 +23,7 @@ export const generateNewVersion = async (from: string, type: semver.ReleaseType,
     const serializedBranch = useSlugify(options.to)
     const rawCommits = await getGitDiff(from, options.to)
     const lastCommitHash = rawCommits[rawCommits.length - 1].shortHash
+
     // On the release branch
     if (options.releaseBranch === options.to)
       return `${incrementedVersion}-edge.${rawCommits.length}.${lastCommitHash}`
